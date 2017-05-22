@@ -1,7 +1,11 @@
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -14,15 +18,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
 public class ShowChart extends ApplicationFrame {
 
@@ -210,19 +209,53 @@ public class ShowChart extends ApplicationFrame {
 	 */
 	public static void analyzeData(ArrayList<String> fullList) {
 		System.out.println("Analyzing data");
+		temp.clear();
+		hum.clear();
+		date.clear();
+		time.clear();
+		System.out.println("fullList size = " + fullList.size());
+		ArrayList<String> dataSubList = new ArrayList<String>();
+		ArrayList<String> dateTimeSubList = new ArrayList<String>();
+		for (String line : fullList) {
+			String[] splited = line.split(";");
+				dateTimeSubList.add(splited[0]);
+				// System.out.println(splitedStr[i]);
+				dataSubList.add(splited[1] + ";" + splited[2]);
+				// System.out.println(splitedStr[i]);
+		}
 
-		for (int i = temp.size() - 1; i >= 0; i--) {
-			temp.remove(i);
+		// separate temperature and humidity
+		for (int i = 0; i < dataSubList.size(); i++) {
+			String[] sp = dataSubList.get(i).split(";");
+			temp.add(sp[0]);
+			hum.add(sp[1]);
+			// System.out.println(dataSubList.get(i));
 		}
-		for (int i = hum.size() - 1; i >= 0; i--) {
-			hum.remove(i);
+
+		// generate date list
+		for (String str : dateTimeSubList) {
+			String subStr = str.substring(0, 10);
+			if (!date.contains(subStr)) {
+				date.add(subStr);
+				// System.out.println("date : " + subStr);
+			}
+			time.add(str.substring(11));
+			// }
 		}
-		for (int i = date.size() - 1; i >= 0; i--) {
-			date.remove(i);
-		}
-		for (int i = time.size() - 1; i >= 0; i--) {
-			time.remove(i);
-		}
+	}
+	
+	
+	/**
+	 * Analyze and extract data from a ArrayList, to static fields : temp, hum,
+	 * date, time.
+	 * @deprecated
+	 */
+	public static void analyzeDataOld(ArrayList<String> fullList) {
+		System.out.println("Analyzing data");
+		temp.clear();
+		hum.clear();
+		date.clear();
+		time.clear();
 		System.out.println("fullList size = " + fullList.size());
 		ArrayList<String> dataSubList = new ArrayList<String>();
 		ArrayList<String> dateTimeSubList = new ArrayList<String>();
@@ -276,6 +309,25 @@ public class ShowChart extends ApplicationFrame {
 	 * @return the filtered ArrayList
 	 */
 	public static ArrayList<String> filterFullList(String selectedDate) {
+		ArrayList<String> filteredDataList = new ArrayList<String>();
+		for (int i = 0; i < originalList.size(); i++) {
+			String string = originalList.get(i);
+			if (string.contains(selectedDate)) {
+				filteredDataList.add(string);
+			}
+		}
+		return filteredDataList;
+	}
+
+	/**
+	 * filter the full list by a selectedDate.
+	 * 
+	 * @param selectedDate
+	 *            the selected date
+	 * @return the filtered ArrayList
+	 * @deprecated
+	 */
+	public static ArrayList<String> filterFullListOld(String selectedDate) {
 		ArrayList<String> filteredDataList = new ArrayList<String>();
 		for (int i = 0; i < originalList.size(); i++) {
 			String string = originalList.get(i);
