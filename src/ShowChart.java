@@ -135,7 +135,7 @@ public class ShowChart extends ApplicationFrame {
 		// define SHH & SFTP
 		String sftpHost = "192.168.1.105";
 		int sftpPort = 22;
-		String suftUser = "pi";
+		String suftUser = "login";
 		String sftpPass = "password";
 		String sftpWorkingPath = "/home/pi/Adafruit_Python_DHT/data/";
 		Session session = null;
@@ -173,6 +173,8 @@ public class ShowChart extends ApplicationFrame {
 			for (int i = 0; i < splitedStr.length; i++) {
 				originalList.add(splitedStr[i]);
 			}
+			// reject header
+			originalList.remove(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
