@@ -1,2 +1,2 @@
 # TempHumChart_JavaClient
-Using my RaspberryPi and a Temperature Humidity Sensor to record data. Save it in local and also upload to my server.
+Client to read recorded data saved in the local rpi, and generate a chart.
