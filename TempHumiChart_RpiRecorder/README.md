@@ -1,4 +1,10 @@
    # TempHumiChart_RpiRecorder
+
+   Sensor: rsh1x
+
+   Require pi-sht1x
+
+   pip# install pi-sht1x
    
    Use TempHumiChart.py to read temperature and humidity data.
 
