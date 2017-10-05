@@ -1,6 +1,6 @@
 #!/bin/bash
 #source $HOME/.bash_profile
-python /path/to/TempHumiChart.py 18 23 -g 'BOARD' | tee -a /path/to/data.txt /path/to/dataDashBoard.txt
+python3 /path/to/TempHumiChart.py 18 23 -g 'BOARD' | tee -a /path/to/data.txt /path/to/dataDashBoard.txt
 
 dt=$(awk -F';' 'END { print $1 }' /home/pi/Adafruit_Python_DHT/data/dataDashBoard.txt);
 t=$(awk -F';' 'END { print $2 }' /home/pi/Adafruit_Python_DHT/data/dataDashBoard.txt);
