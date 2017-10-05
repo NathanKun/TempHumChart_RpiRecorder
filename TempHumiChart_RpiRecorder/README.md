@@ -1,4 +1,4 @@
-   # TempHumChart_RpiRecorder
+   # TempHumiChart_RpiRecorder
    
    Use TempHumiChart.py to read temperature and humidity data.
 
